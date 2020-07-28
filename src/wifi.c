@@ -21,7 +21,7 @@ Last update: July 2020
 // Event group for wifi connection
 static EventGroupHandle_t wifi_event_group;
 const int CONNECTED_BIT = BIT0;
-
+char addr[256];
 bool flag_wifi_init,flag_wifi_connected = false;
 /* Event handler is used to tie events from WiFi/Ethernet/LwIP stacks into application logic.
    In general, event mean somethings that happens and event handler is a method that's called 
@@ -59,6 +59,8 @@ esp_err_t event_handler(void * ctx, system_event_t * event) {
         xEventGroupSetBits(wifi_event_group, CONNECTED_BIT);
         printf("Our IP address is " IPSTR "\n", IP2STR( & event -> event_info.got_ip.ip_info.ip));
         printf("We have now connected to a station and can do things...\n");
+        addr = IP2STR(& event -> event_info.got_ip.ip_info.ip);
+        printf(addr);
     }
 
     /* 
@@ -196,7 +198,6 @@ void wifi_init(void){
                ESP_ERR_WIFI_CONN: WiFi internal error, station or soft-AP control block wrong
                ESP_FAIL: other WiFi internal errors
     */
-    printf("2................................\n");
     ESP_ERROR_CHECK(esp_wifi_start());
     while(flag_wifi_init==true && flag_wifi_connected){
         esp_wifi_connect();
@@ -206,6 +207,8 @@ void wifi_init(void){
 
 void wifi_connect(){
 	xEventGroupWaitBits(wifi_event_group, CONNECTED_BIT, false, true, portMAX_DELAY);
-    printf("3................................\n");
-
 }
+
+/*int get_ip(){
+    return addr;
+}*/
