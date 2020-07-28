@@ -10,5 +10,6 @@ Last update: July 2020
 
 void wifi_init(void);
 void wifi_connect();
+int get_ip();
 
 #endif
