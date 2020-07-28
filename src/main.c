@@ -18,4 +18,6 @@ void app_main() {
     printf("wifi init done.\n");
     wifi_connect();
     printf("Connected to wifi network\n");
-}
+    //printf(get_ip());
+
+    }
